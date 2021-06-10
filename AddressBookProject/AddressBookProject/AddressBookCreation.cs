@@ -4,70 +4,51 @@ using System.Text;
 
 namespace AddressBookProject
 {
-
-    public class AddressBookCreation
+    interface IAddressBook
     {
-        private string firstName;
-        private string lastName;
-        private string address;
-        private string city;
-        private string state;
-        private long mobileNo;
-        private int zip;
+        public void AddContact(string firstName, string lastName, string address, string city, string state, string email, int zip, long phoneNumber);
+    }
 
-        public AddressBookCreation(string firstName, string lastName, string address, string city, string state, long mobileNo, int zip)
+    public class AddressBookCreation : IAddressBook
+    {
+        private Dictionary<string, Contact> addressBook = new Dictionary<string, Contact>();
+        public void AddContact(string firstName, string lastName, string address, string city, string state, string email, int zip, long phoneNumber)
         {
-
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.address = address;
-            this.city = city;
-            this.state = state;
-            this.mobileNo = mobileNo;
-            this.zip = zip;
+            Contact contact = new Contact();
+            contact.FirstName = firstName;
+            contact.LastName = lastName;
+            contact.Address = address;
+            contact.City = city;
+            contact.State = state;
+            contact.Email = email;
+            contact.Zip = zip;
+            contact.PhoneNumber = phoneNumber;
+            addressBook.Add(contact.FirstName, contact);
         }
-        public string FirstName 
+        public void ViewContact()
         {
-            get { return firstName; }
-            set { firstName = value; }
+            foreach (KeyValuePair<string, Contact> item in addressBook)
+            {
+                Console.WriteLine("First Name : " + item.Value.FirstName);
+                Console.WriteLine("Last Name : " + item.Value.LastName);
+                Console.WriteLine("Address : " + item.Value.Address);
+                Console.WriteLine("City : " + item.Value.City);
+                Console.WriteLine("State : " + item.Value.State);
+                Console.WriteLine("Email : " + item.Value.Email);
+                Console.WriteLine("Zip : " + item.Value.Zip);
+                Console.WriteLine("Phone Number : " + item.Value.PhoneNumber + "\n");
+            }
         }
-        public string LastName
+        public class Contact
         {
-            get { return lastName; }
-            set { lastName = value; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string Address { get; set; }
+            public string City { get; set; }
+            public string State { get; set; }
+            public string Email { get; set; }
+            public int Zip { get; set; }
+            public long PhoneNumber { get; set; }
         }
-        public string Address
-        {
-            get { return address; }
-            set { address = value; }
-        }
-        public string City
-        {
-            get { return city; }
-            set { city = value; }
-        }
-        public string State
-        {
-            get { return state; }
-            set { state = value; }
-        }
-        public long MobileNo
-        {
-            get { return mobileNo; }
-            set { mobileNo = value; }
-        }
-        public int Zip
-        {
-            get { return zip; }
-            set { zip = value; }
-        }
-
-
-
-
-
-
-
-
     }
 }
