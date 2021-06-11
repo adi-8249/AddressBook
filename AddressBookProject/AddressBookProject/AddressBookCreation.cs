@@ -26,6 +26,7 @@ namespace AddressBookProject
             contact.Zip = zip;
             contact.PhoneNumber = phoneNumber;
             addressBook.Add(contact.FirstName, contact);
+            Console.WriteLine("Added successfully");
         }
         public void ViewContact()
         {
