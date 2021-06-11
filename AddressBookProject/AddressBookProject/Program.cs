@@ -26,6 +26,8 @@ namespace AddressBookProject
             Console.WriteLine("Enter Phone Number :");
             long phoneNumber = Convert.ToInt64(Console.ReadLine());
             creation.AddContact(firstName, lastName, address, city, state, email, zip, phoneNumber);
+            creation.EditContact(firstName);
+            creation.ViewContact();
 
         }
     }
