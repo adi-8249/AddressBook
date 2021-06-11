@@ -8,6 +8,7 @@ namespace AddressBookProject
     {
         public void AddContact(string firstName, string lastName, string address, string city, string state, string email, int zip, long phoneNumber);
         public void EditContact(string name);
+        public void DeleteContact(string name);
     }
 
     public class AddressBookCreation : IAddressBook
@@ -97,7 +98,20 @@ namespace AddressBookProject
                             Console.WriteLine("invalid entry");
                             break;
                     }
+                   
                 }
+            }
+        }
+        public void DeleteContact(string name)
+        {
+            if (addressBook.ContainsKey(name))
+            {
+                addressBook.Remove(name);
+                Console.WriteLine("Deleted the person contact");
+            }
+            else
+            {
+                Console.WriteLine("try again");
             }
         }
     }
