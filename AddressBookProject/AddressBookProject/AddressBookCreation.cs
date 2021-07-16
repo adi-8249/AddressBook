@@ -4,16 +4,10 @@ using System.Text;
 
 namespace AddressBookProject
 {
-    interface IAddressBook
-    {
-        public void AddContact(string firstName, string lastName, string address, string city, string state, string email, int zip, long phoneNumber);
-        public void EditContact(string name);
-        public void DeleteContact(string name);
-    }
-
     public class AddressBookCreation : IAddressBook
     {
         private Dictionary<string, Contact> addressBook = new Dictionary<string, Contact>();
+        private Dictionary<string, AddressBookCreation> addressBookDictionary = new Dictionary<string, AddressBookCreation>();
         public void AddContact(string firstName, string lastName, string address, string city, string state, string email, int zip, long phoneNumber)
         {
             Contact contact = new Contact();
@@ -26,9 +20,10 @@ namespace AddressBookProject
             contact.Zip = zip;
             contact.PhoneNumber = phoneNumber;
             addressBook.Add(contact.FirstName, contact);
+            addressBookDictionary[address].addressBook.Add(contact.FirstName, contact);
             Console.WriteLine("Added successfully");
         }
-        public void ViewContact()
+        public void ViewContact(string name,string bookName)
         {
             foreach (KeyValuePair<string, Contact> item in addressBook)
             {
@@ -40,20 +35,25 @@ namespace AddressBookProject
                 Console.WriteLine("Email : " + item.Value.Email);
                 Console.WriteLine("Zip : " + item.Value.Zip);
                 Console.WriteLine("Phone Number : " + item.Value.PhoneNumber);
+
             }
         }
-        public class Contact
+        public void ViewContact(string bookName)
         {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string Address { get; set; }
-            public string City { get; set; }
-            public string State { get; set; }
-            public string Email { get; set; }
-            public int Zip { get; set; }
-            public long PhoneNumber { get; set; }
+            foreach (KeyValuePair<string, Contact> item in addressBook)
+            {
+                Console.WriteLine("First Name : " + item.Value.FirstName);
+                Console.WriteLine("Last Name : " + item.Value.LastName);
+                Console.WriteLine("Address : " + item.Value.Address);
+                Console.WriteLine("City : " + item.Value.City);
+                Console.WriteLine("State : " + item.Value.State);
+                Console.WriteLine("Phone Number : " + item.Value.PhoneNumber);
+                Console.WriteLine("ZipCode : " + item.Value.Zip);
+                Console.WriteLine("Email  : " + item.Value.Email);
+            }
         }
-        public void EditContact(string name)
+
+        public void EditContact(string name )
         {
             foreach (KeyValuePair<string, Contact> item in addressBook)
             {
@@ -99,7 +99,7 @@ namespace AddressBookProject
                             Console.WriteLine("invalid entry");
                             break;
                     }
-                   
+
                 }
             }
         }
@@ -114,6 +114,19 @@ namespace AddressBookProject
             {
                 Console.WriteLine("try again");
             }
+        }
+
+        public void AddAddressBook(string name)
+        {
+
+            AddressBookCreation addressBook = new AddressBookCreation();
+            addressBookDictionary.Add(name, addressBook);
+            Console.WriteLine("AddressBook Created.");
+        }
+
+        public Dictionary<string, AddressBookCreation> GetAddressBook()
+        {
+            return addressBookDictionary;
         }
     }
 }

@@ -1,16 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AddressBookProject
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             AddressBookCreation creation = new AddressBookCreation();
-            creation.AddContact("Anjaneya", "Tosh", "Nuapatna", "Cuttack", "Odisha", "aptgmail.com", 754035, 9456745454);
-            creation.ViewContact();
+            int choice, choice2;
+            string bookName = "default";
+            Console.WriteLine("Would You Like To \n1.Work on default AddressBook \n2.Create New AddressBook");
+            choice2 = Convert.ToInt32(Console.ReadLine());
+            switch (choice2)
+            {
+                case 1:
+                    creation.AddAddressBook(bookName);
+                    break;
+                case 2:
+                    Console.WriteLine("Enter Name Of New Addressbook You want to create : ");
+                    bookName = Console.ReadLine();
+                    creation.AddAddressBook(bookName);
+                    break;
+            }
 
-            int choice;
             do
             {
                 Console.WriteLine("Choose An Option \n1.Add New Contact \n2.Edit Existing Contact \n3.Delete A Contact\n4.view contact");
@@ -48,14 +61,51 @@ namespace AddressBookProject
                     case 4:
                         Console.WriteLine("Enter First Name Of Contact To View :");
                         string nameToView = Console.ReadLine();
-                        creation.ViewContact();
+                        creation.ViewContact(nameToView, bookName);
+                        break;
+                    case 5:
+                        creation.ViewContact(bookName);
+                        break;
+                    case 6:
+                        Console.WriteLine("Enter Name For New AddressBook");
+                        string newAddressBook = Console.ReadLine();
+                        creation.AddAddressBook(newAddressBook);
+                        Console.WriteLine("Would you like to Switch to " + newAddressBook);
+                        Console.WriteLine("1.Yes \n2.No");
+                        int c = Convert.ToInt32(Console.ReadLine());
+                        if (c == 1)
+                        {
+                            bookName = newAddressBook;
+                        }
+                        break;
+                    case 7:
+                        Console.WriteLine("Enter Name Of AddressBook From Below List");
+                        foreach (KeyValuePair<string, AddressBookCreation> item in creation.GetAddressBook())
+                        {
+                            Console.WriteLine(item.Key);
+                        }
+                        while (true)
+                        {
+                            bookName = Console.ReadLine();
+                            if (creation.GetAddressBook().ContainsKey(bookName))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("No such AddressBook found. Try Again.");
+                            }
+                        }
+                        break;
+                    case 8:
+                        Console.WriteLine("Thank You For Using Address Book System.");
                         break;
                     default:
                         Console.WriteLine("Invalid entry");
                         break;
                 }
-            } while (choice != 5);
-
+            
+            } while (choice != 8);
         }
     }
 }
